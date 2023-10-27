@@ -1926,24 +1926,36 @@ extension Parser {
     _ attrs: DeclAttributes,
     _ handle: RecoveryConsumptionHandle
   ) -> RawMacroExpansionDeclSyntax {
-
     var (unexpectedBeforePound, pound) = self.eat(handle)
     if pound.trailingTriviaByteLength != 0 {
       // `#` and the macro name must not be separated by a newline.
       unexpectedBeforePound = RawUnexpectedNodesSyntax(combining: unexpectedBeforePound, pound, arena: self.arena)
       pound = RawTokenSyntax(missing: .pound, text: "#", leadingTriviaPieces: pound.leadingTriviaPieces, arena: self.arena)
     }
-    var unexpectedBeforeMacro: RawUnexpectedNodesSyntax?
-    var macro: RawTokenSyntax
+    var unexpectedBeforeModuleName: RawUnexpectedNodesSyntax?
+    var unexpectedBeforeMacroName: RawUnexpectedNodesSyntax?
+    var moduleName: RawTokenSyntax?
+    var period: RawTokenSyntax?
+    var macroName: RawTokenSyntax
     if !self.atStartOfLine {
-      (unexpectedBeforeMacro, macro) = self.expectIdentifier(allowKeywordsAsIdentifier: true)
-      if macro.leadingTriviaByteLength != 0 {
-        unexpectedBeforeMacro = RawUnexpectedNodesSyntax(combining: unexpectedBeforeMacro, macro, arena: self.arena)
-        pound = self.missingToken(.identifier, text: macro.tokenText)
+      var (unexpectedBeforeFirst, firstIdentifier) = self.expectIdentifier(allowKeywordsAsIdentifier: true)
+      period = consume(if: .period)
+      if firstIdentifier.leadingTriviaByteLength != 0 {
+        // `#` and the macro name must not be separated by a newline.
+        unexpectedBeforeFirst = RawUnexpectedNodesSyntax(combining: unexpectedBeforeFirst, firstIdentifier, arena: self.arena)
+        pound = self.missingToken(.identifier, text: firstIdentifier.tokenText)
+      }
+      if period != nil {
+        unexpectedBeforeModuleName = unexpectedBeforeFirst
+        moduleName = firstIdentifier
+        macroName = self.expectWithoutRecoveryOrLeadingTrivia(.identifier)
+      } else {
+        unexpectedBeforeMacroName = unexpectedBeforeFirst
+        macroName = firstIdentifier
       }
     } else {
-      unexpectedBeforeMacro = nil
-      macro = self.missingToken(.identifier)
+      unexpectedBeforeMacroName = nil
+      macroName = self.missingToken(.identifier)
     }
 
     // Parse the optional generic argument list.
@@ -1986,8 +1998,11 @@ extension Parser {
       modifiers: attrs.modifiers,
       unexpectedBeforePound,
       pound: pound,
-      unexpectedBeforeMacro,
-      macroName: macro,
+      unexpectedBeforeModuleName,
+      moduleName: moduleName,
+      period: period,
+      unexpectedBeforeMacroName,
+      macroName: macroName,
       genericArgumentClause: generics,
       leftParen: leftParen,
       arguments: RawLabeledExprListSyntax(

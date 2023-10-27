@@ -2049,8 +2049,16 @@ public func childName(_ keyPath: AnyKeyPath) -> String? {
     return "unexpectedBetweenModifiersAndPound"
   case \MacroExpansionDeclSyntax.pound:
     return "pound"
-  case \MacroExpansionDeclSyntax.unexpectedBetweenPoundAndMacroName:
-    return "unexpectedBetweenPoundAndMacroName"
+  case \MacroExpansionDeclSyntax.unexpectedBetweenPoundAndModuleName:
+    return "unexpectedBetweenPoundAndModuleName"
+  case \MacroExpansionDeclSyntax.moduleName:
+    return "moduleName"
+  case \MacroExpansionDeclSyntax.unexpectedBetweenModuleNameAndPeriod:
+    return "unexpectedBetweenModuleNameAndPeriod"
+  case \MacroExpansionDeclSyntax.period:
+    return "period"
+  case \MacroExpansionDeclSyntax.unexpectedBetweenPeriodAndMacroName:
+    return "unexpectedBetweenPeriodAndMacroName"
   case \MacroExpansionDeclSyntax.macroName:
     return "macroName"
   case \MacroExpansionDeclSyntax.unexpectedBetweenMacroNameAndGenericArgumentClause:
@@ -2083,8 +2091,16 @@ public func childName(_ keyPath: AnyKeyPath) -> String? {
     return "unexpectedBeforePound"
   case \MacroExpansionExprSyntax.pound:
     return "pound"
-  case \MacroExpansionExprSyntax.unexpectedBetweenPoundAndMacroName:
-    return "unexpectedBetweenPoundAndMacroName"
+  case \MacroExpansionExprSyntax.unexpectedBetweenPoundAndModuleName:
+    return "unexpectedBetweenPoundAndModuleName"
+  case \MacroExpansionExprSyntax.moduleName:
+    return "moduleName"
+  case \MacroExpansionExprSyntax.unexpectedBetweenModuleNameAndPeriod:
+    return "unexpectedBetweenModuleNameAndPeriod"
+  case \MacroExpansionExprSyntax.period:
+    return "period"
+  case \MacroExpansionExprSyntax.unexpectedBetweenPeriodAndMacroName:
+    return "unexpectedBetweenPeriodAndMacroName"
   case \MacroExpansionExprSyntax.macroName:
     return "macroName"
   case \MacroExpansionExprSyntax.unexpectedBetweenMacroNameAndGenericArgumentClause:

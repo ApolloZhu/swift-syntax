@@ -1275,14 +1275,26 @@ extension Parser {
       unexpectedBeforePound = RawUnexpectedNodesSyntax(combining: unexpectedBeforePound, pound, arena: self.arena)
       pound = self.missingToken(.pound)
     }
+    var unexpectedBeforeModuleName: RawUnexpectedNodesSyntax?
     var unexpectedBeforeMacroName: RawUnexpectedNodesSyntax?
+    var moduleName: RawTokenSyntax?
+    var period: RawTokenSyntax?
     var macroName: RawTokenSyntax
     if !self.atStartOfLine {
-      (unexpectedBeforeMacroName, macroName) = self.expectIdentifier(allowKeywordsAsIdentifier: true)
-      if macroName.leadingTriviaByteLength != 0 {
+      var (unexpectedBeforeFirst, firstIdentifier) = self.expectIdentifier(allowKeywordsAsIdentifier: true)
+      period = consume(if: .period)
+      if firstIdentifier.leadingTriviaByteLength != 0 {
         // If there're whitespaces after '#' diagnose.
-        unexpectedBeforeMacroName = RawUnexpectedNodesSyntax(combining: unexpectedBeforeMacroName, macroName, arena: self.arena)
-        pound = self.missingToken(.identifier, text: macroName.tokenText)
+        unexpectedBeforeFirst = RawUnexpectedNodesSyntax(combining: unexpectedBeforeFirst, firstIdentifier, arena: self.arena)
+        pound = self.missingToken(.identifier, text: firstIdentifier.tokenText)
+      }
+      if period != nil {
+        unexpectedBeforeModuleName = unexpectedBeforeFirst
+        moduleName = firstIdentifier
+        macroName = self.expectWithoutRecoveryOrLeadingTrivia(.identifier)
+      } else {
+        unexpectedBeforeMacroName = unexpectedBeforeFirst
+        macroName = firstIdentifier
       }
     } else {
       unexpectedBeforeMacroName = nil
@@ -1324,6 +1336,9 @@ extension Parser {
     return RawMacroExpansionExprSyntax(
       unexpectedBeforePound,
       pound: pound,
+      unexpectedBeforeModuleName,
+      moduleName: moduleName,
+      period: period,
       unexpectedBeforeMacroName,
       macroName: macroName,
       genericArgumentClause: generics,

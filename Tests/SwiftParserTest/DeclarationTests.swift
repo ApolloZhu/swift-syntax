@@ -1775,6 +1775,7 @@ final class DeclarationTests: ParserTestCase {
       """
       struct X {
         #memberwiseInit(access: .public)
+        #Module1.memberwiseInit(access: .public)
       }
       """
     )
@@ -1786,6 +1787,16 @@ final class DeclarationTests: ParserTestCase {
         CodeBlockItemListSyntax {
           MacroExpansionDeclSyntax(macroName: "expand") {}
         }
+      )
+    )
+    assertParse(
+      """
+      #Module1.expand
+      """,
+      substructure: SourceFileSyntax(
+          CodeBlockItemListSyntax {
+              MacroExpansionDeclSyntax(moduleName: "Module1", macroName: "expand") {}
+          }
       )
     )
   }

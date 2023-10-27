@@ -4791,13 +4791,23 @@ extension MacroExpansionDeclSyntax {
     }
   }
   
-  @available(*, deprecated, renamed: "unexpectedBetweenPoundAndMacroName")
-  public var unexpectedBetweenPoundTokenAndMacro: UnexpectedNodesSyntax? {
+  @available(*, deprecated, renamed: "unexpectedBetweenPoundAndModuleName")
+  public var unexpectedBetweenPoundTokenAndModuleName: UnexpectedNodesSyntax? {
     get {
-      return unexpectedBetweenPoundAndMacroName
+      return unexpectedBetweenPoundAndModuleName
     }
     set {
-      unexpectedBetweenPoundAndMacroName = newValue
+      unexpectedBetweenPoundAndModuleName = newValue
+    }
+  }
+  
+  @available(*, deprecated, renamed: "unexpectedBetweenPeriodAndMacroName")
+  public var unexpectedBetweenPeriodAndMacro: UnexpectedNodesSyntax? {
+    get {
+      return unexpectedBetweenPeriodAndMacroName
+    }
+    set {
+      unexpectedBetweenPeriodAndMacroName = newValue
     }
   }
   
@@ -4871,7 +4881,7 @@ extension MacroExpansionDeclSyntax {
     }
   }
   
-  @available(*, deprecated, renamed: "MacroExpansionDeclSyntax(leadingTrivia:_:attributes:_:modifiers:_:pound:_:macroName:_:genericArgumentClause:_:leftParen:_:arguments:_:rightParen:_:trailingClosure:_:additionalTrailingClosures:_:trailingTrivia:)")
+  @available(*, deprecated, renamed: "MacroExpansionDeclSyntax(leadingTrivia:_:attributes:_:modifiers:_:pound:_:moduleName:_:period:_:macroName:_:genericArgumentClause:_:leftParen:_:arguments:_:rightParen:_:trailingClosure:_:additionalTrailingClosures:_:trailingTrivia:)")
   @_disfavoredOverload
   public init(
       leadingTrivia: Trivia? = nil,
@@ -4881,7 +4891,11 @@ extension MacroExpansionDeclSyntax {
       modifiers: DeclModifierListSyntax = [],
       _ unexpectedBetweenModifiersAndPoundToken: UnexpectedNodesSyntax? = nil,
       poundToken: TokenSyntax = .poundToken(),
-      _ unexpectedBetweenPoundTokenAndMacro: UnexpectedNodesSyntax? = nil,
+      _ unexpectedBetweenPoundTokenAndModuleName: UnexpectedNodesSyntax? = nil,
+      moduleName: TokenSyntax? = nil,
+      _ unexpectedBetweenModuleNameAndPeriod: UnexpectedNodesSyntax? = nil,
+      period: TokenSyntax? = nil,
+      _ unexpectedBetweenPeriodAndMacro: UnexpectedNodesSyntax? = nil,
       macro: TokenSyntax,
       _ unexpectedBetweenMacroAndGenericArguments: UnexpectedNodesSyntax? = nil,
       genericArguments: GenericArgumentClauseSyntax? = nil,
@@ -4907,7 +4921,11 @@ extension MacroExpansionDeclSyntax {
         modifiers: modifiers, 
         unexpectedBetweenModifiersAndPoundToken, 
         pound: poundToken, 
-        unexpectedBetweenPoundTokenAndMacro, 
+        unexpectedBetweenPoundTokenAndModuleName, 
+        moduleName: moduleName, 
+        unexpectedBetweenModuleNameAndPeriod, 
+        period: period, 
+        unexpectedBetweenPeriodAndMacro, 
         macroName: macro, 
         unexpectedBetweenMacroAndGenericArguments, 
         genericArgumentClause: genericArguments, 
@@ -4948,13 +4966,23 @@ extension MacroExpansionExprSyntax {
     }
   }
   
-  @available(*, deprecated, renamed: "unexpectedBetweenPoundAndMacroName")
-  public var unexpectedBetweenPoundTokenAndMacro: UnexpectedNodesSyntax? {
+  @available(*, deprecated, renamed: "unexpectedBetweenPoundAndModuleName")
+  public var unexpectedBetweenPoundTokenAndModuleName: UnexpectedNodesSyntax? {
     get {
-      return unexpectedBetweenPoundAndMacroName
+      return unexpectedBetweenPoundAndModuleName
     }
     set {
-      unexpectedBetweenPoundAndMacroName = newValue
+      unexpectedBetweenPoundAndModuleName = newValue
+    }
+  }
+  
+  @available(*, deprecated, renamed: "unexpectedBetweenPeriodAndMacroName")
+  public var unexpectedBetweenPeriodAndMacro: UnexpectedNodesSyntax? {
+    get {
+      return unexpectedBetweenPeriodAndMacroName
+    }
+    set {
+      unexpectedBetweenPeriodAndMacroName = newValue
     }
   }
   
@@ -5028,13 +5056,17 @@ extension MacroExpansionExprSyntax {
     }
   }
   
-  @available(*, deprecated, renamed: "MacroExpansionExprSyntax(leadingTrivia:_:pound:_:macroName:_:genericArgumentClause:_:leftParen:_:arguments:_:rightParen:_:trailingClosure:_:additionalTrailingClosures:_:trailingTrivia:)")
+  @available(*, deprecated, renamed: "MacroExpansionExprSyntax(leadingTrivia:_:pound:_:moduleName:_:period:_:macroName:_:genericArgumentClause:_:leftParen:_:arguments:_:rightParen:_:trailingClosure:_:additionalTrailingClosures:_:trailingTrivia:)")
   @_disfavoredOverload
   public init(
       leadingTrivia: Trivia? = nil,
       _ unexpectedBeforePoundToken: UnexpectedNodesSyntax? = nil,
       poundToken: TokenSyntax = .poundToken(),
-      _ unexpectedBetweenPoundTokenAndMacro: UnexpectedNodesSyntax? = nil,
+      _ unexpectedBetweenPoundTokenAndModuleName: UnexpectedNodesSyntax? = nil,
+      moduleName: TokenSyntax? = nil,
+      _ unexpectedBetweenModuleNameAndPeriod: UnexpectedNodesSyntax? = nil,
+      period: TokenSyntax? = nil,
+      _ unexpectedBetweenPeriodAndMacro: UnexpectedNodesSyntax? = nil,
       macro: TokenSyntax,
       _ unexpectedBetweenMacroAndGenericArguments: UnexpectedNodesSyntax? = nil,
       genericArguments: GenericArgumentClauseSyntax? = nil,
@@ -5056,7 +5088,11 @@ extension MacroExpansionExprSyntax {
         leadingTrivia: leadingTrivia, 
         unexpectedBeforePoundToken, 
         pound: poundToken, 
-        unexpectedBetweenPoundTokenAndMacro, 
+        unexpectedBetweenPoundTokenAndModuleName, 
+        moduleName: moduleName, 
+        unexpectedBetweenModuleNameAndPeriod, 
+        period: period, 
+        unexpectedBetweenPeriodAndMacro, 
         macroName: macro, 
         unexpectedBetweenMacroAndGenericArguments, 
         genericArgumentClause: genericArguments, 
